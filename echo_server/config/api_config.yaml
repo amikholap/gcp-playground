@@ -1,0 +1,13 @@
+type: google.api.Service
+config_version: 3
+
+name: echo.gcppg.endpoints.playground-192021.cloud.goog
+title: Echo Server gRPC API
+
+apis:
+- name: gcppg.echo.Echo
+
+usage:
+  rules:
+  - selector: "*"
+    allow_unregistered_calls: true
