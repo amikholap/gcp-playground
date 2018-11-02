@@ -1,0 +1,17 @@
+FROM debian:buster
+
+RUN apt-get update -qq && \
+    apt-get install -y clang cmake git golang
+
+COPY . /tmp/gcppg
+
+RUN cd /tmp/gcppg && \
+    git submodule update --init --recursive && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release .. && \
+    cmake .. && \
+    make -j $(($(nproc --all) * 3 / 2))
+
+RUN mkdir -p /opt/gcppg && \
+    cp /tmp/gcppg/build/gcppg /opt/gcppg
