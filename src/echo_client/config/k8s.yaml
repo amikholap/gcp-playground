@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gcppg-echo-client
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: gcppg-echo-client
+    spec:
+      containers:
+      - name: echo
+        image: docker.io/carabas/gcppg@sha256:3c0c9570671625d8801ede0299501abeb2b22407378f6acd72995ff0e576dd5a
+        command: ["/opt/gcppg"]
+        args: [
+          "echo_client",
+          "--echo_client_server_address=35.195.42.149:80"
+        ]

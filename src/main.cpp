@@ -3,12 +3,14 @@
 
 #include <gflags/gflags.h>
 
+#include "echo_client/client.h"
 #include "echo_server/server.h"
 
 
 using MainFunc = int (*)(int, char**);
 
 std::pair<const char*, MainFunc> applications[] = {
+        {"echo_client", GCPPG::mainEchoClient},
         {"echo_server", GCPPG::mainEchoServer}
 };
 

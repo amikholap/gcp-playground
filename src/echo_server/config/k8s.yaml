@@ -1,27 +1,27 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gcppg-echo
+  name: gcppg-echo-server
 spec:
   ports:
-  - port: 443
+  - port: 80
     targetPort: 9000
     protocol: TCP
     name: http2
   selector:
-    app: gcppg-echo
+    app: gcppg-echo-server
   type: LoadBalancer
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: gcppg-echo
+  name: gcppg-echo-server
 spec:
   replicas: 2
   template:
     metadata:
       labels:
-        app: gcppg-echo
+        app: gcppg-echo-server
     spec:
       containers:
       - name: esp
@@ -30,16 +30,16 @@ spec:
           "--http2_port=9000",
           "--service=echo.gcppg.endpoints.playground-192021.cloud.goog",
           "--rollout_strategy=managed",
-          "--backend=grpc://127.0.0.1:443"
+          "--backend=grpc://127.0.0.1:80"
         ]
         ports:
         - containerPort: 9000
       - name: echo
-        image: docker.io/carabas/gcppg
+        image: docker.io/carabas/gcppg@sha256:3c0c9570671625d8801ede0299501abeb2b22407378f6acd72995ff0e576dd5a
         command: ["/opt/gcppg"]
         args: [
           "echo_server",
-          "--echo_server_port=443"
+          "--echo_server_port=80"
         ]
         ports:
-        - containerPort: 443
+        - containerPort: 80
