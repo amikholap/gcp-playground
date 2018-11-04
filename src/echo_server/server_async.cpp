@@ -31,13 +31,15 @@ namespace
             {
                 status_ = PROCESS;
                 service_->RequestSend(&ctx_, &request_, &responseWriter_, cq_, cq_, this);
-            } else if (status_ == PROCESS)
+            }
+            else if (status_ == PROCESS)
             {
                 new RequestHandler(service_, cq_);
                 response_.set_message(request_.message());
                 status_ = FINISH;
                 responseWriter_.Finish(response_, grpc::Status::OK, this);
-            } else
+            }
+            else
             {
                 GPR_ASSERT(status_ == FINISH);
                 delete this;
