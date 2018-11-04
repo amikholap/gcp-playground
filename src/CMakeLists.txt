@@ -15,6 +15,7 @@ add_executable(
         echo_server/echo.grpc.pb.cc
         echo_server/echo.pb.cc
         echo_server/server.cpp
+        echo_server/server_async.cpp
         echo_client/client.cpp
 )
 target_compile_options(gcppg PRIVATE -Werror)

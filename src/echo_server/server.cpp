@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "absl/strings/str_format.h"
 #include <google/protobuf/compiler/code_generator.h>
 #include <gflags/gflags.h>
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
@@ -7,7 +8,6 @@
 #include <grpcpp/server.h>
 #include <grpcpp/server_builder.h>
 
-#include "absl/strings/str_format.h"
 #include "echo.grpc.pb.h"
 #include "server.h"
 
