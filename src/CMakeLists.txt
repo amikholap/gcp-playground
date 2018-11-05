@@ -8,6 +8,7 @@ find_package(abseil REQUIRED)
 find_package(gflags REQUIRED)
 find_package(grpc REQUIRED)
 find_package(Protobuf REQUIRED)
+find_package(TBB REQUIRED)
 
 add_executable(
         gcppg
@@ -19,4 +20,4 @@ add_executable(
         echo_client/client.cpp
 )
 target_compile_options(gcppg PRIVATE -Werror)
-target_link_libraries(gcppg grpc++_reflection grpc++ ${PROTOBUF_LIBRARIES} standalone_absl gflags)
+target_link_libraries(gcppg grpc++_reflection grpc++ ${PROTOBUF_LIBRARIES} standalone_absl TBB::tbb gflags)

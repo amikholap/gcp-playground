@@ -10,3 +10,6 @@
 [submodule "src/contrib/grpc"]
 	path = src/contrib/grpc
 	url = git@github.com:grpc/grpc.git
+[submodule "src/contrib/tbb"]
+	path = src/contrib/tbb
+	url = git@github.com:01org/tbb.git
