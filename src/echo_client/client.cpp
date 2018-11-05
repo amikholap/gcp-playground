@@ -1,7 +1,10 @@
 #include <iostream>
+#include <random>
 #include <string>
 
+#include "absl/strings/str_format.h"
 #include <gflags/gflags.h>
+#include <grpc/support/log.h>
 #include <grpcpp/channel.h>
 #include <grpcpp/create_channel.h>
 
@@ -20,7 +23,7 @@ namespace
         {
         }
 
-        gcppg::echo::EchoResponse SendRandom(int messageLength)
+        gcppg::echo::EchoResponse SendRandom(size_t messageLength)
         {
             grpc::ClientContext context;
             gcppg::echo::EchoResponse response;
@@ -28,11 +31,16 @@ namespace
             gcppg::echo::EchoRequest request;
             request.set_message(genRandomString(messageLength));
 
-            stub->Send(&context, request, &response);
+            grpc::Status status = stub->Send(&context, request, &response);
+            if (!status.ok())
+            {
+                throw std::runtime_error(absl::StrFormat(
+                    "grpc failed with code %d: %s", status.error_code(), status.error_message()
+                ));
+            }
 
             return response;
         }
-
     private:
         std::string genRandomString(size_t length) {
             static const char alphanum[] =
@@ -50,6 +58,7 @@ namespace
             return s;
         }
 
+    private:
         std::unique_ptr<gcppg::echo::Echo::Stub> stub;
     };
 } // anonymous namespace
@@ -63,8 +72,14 @@ namespace GCPPG
         );
 
         while (true) {
-            const auto& response = client.SendRandom(32);
-            std::cout << response.message() << std::endl;
+            try
+            {
+                const auto& response = client.SendRandom(32);
+                std::cout << response.message() << std::endl;
+            } catch(const std::exception& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
 
         return 0;

@@ -18,6 +18,7 @@ add_executable(
         echo_server/server.cpp
         echo_server/server_async.cpp
         echo_client/client.cpp
+        echo_client/client_async.cpp
 )
 target_compile_options(gcppg PRIVATE -Werror)
 target_link_libraries(gcppg grpc++_reflection grpc++ ${PROTOBUF_LIBRARIES} standalone_absl TBB::tbb gflags)

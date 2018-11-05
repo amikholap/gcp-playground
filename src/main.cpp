@@ -13,6 +13,7 @@ using MainFunc = int (*)(int, char**);
 
 std::pair<const char*, MainFunc> applications[] = {
         {"echo_client", GCPPG::mainEchoClient},
+        {"echo_client_async", GCPPG::mainEchoClientAsync},
         {"echo_server", GCPPG::mainEchoServer},
         {"echo_server_async", GCPPG::mainEchoServerAsync}
 };
