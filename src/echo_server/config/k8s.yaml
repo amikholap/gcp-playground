@@ -5,11 +5,39 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 9000
+    targetPort: 80
     protocol: TCP
     name: http2
   selector:
     app: gcppg-echo-server
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcppg-echo-server-async
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http2
+  selector:
+    app: gcppg-echo-server-async
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcppg-echo-server-esp
+spec:
+  ports:
+  - port: 80
+    targetPort: 9000
+    protocol: TCP
+    name: http2
+  selector:
+    app: gcppg-echo-server-esp
   type: LoadBalancer
 ---
 apiVersion: extensions/v1beta1
@@ -17,11 +45,55 @@ kind: Deployment
 metadata:
   name: gcppg-echo-server
 spec:
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       labels:
         app: gcppg-echo-server
+    spec:
+      containers:
+      - name: echo
+        image: docker.io/carabas/gcppg@sha256:3c0c9570671625d8801ede0299501abeb2b22407378f6acd72995ff0e576dd5a
+        command: ["/opt/gcppg"]
+        args: [
+          "echo_server",
+          "--echo_server_port=80"
+        ]
+        ports:
+        - containerPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gcppg-echo-server-async
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: gcppg-echo-server-async
+    spec:
+      containers:
+      - name: echo
+        image: docker.io/carabas/gcppg@sha256:16880ecce3956edcb62ed53c7f9e6fbdbe0e7c202cceb267ab4f96c80449268c
+        command: ["/opt/gcppg"]
+        args: [
+          "echo_server_async",
+          "--echo_server_async_port=80"
+        ]
+        ports:
+        - containerPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gcppg-echo-server-esp
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: gcppg-echo-server-esp
     spec:
       containers:
       - name: esp

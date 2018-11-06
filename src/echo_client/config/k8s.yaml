@@ -1,19 +1,19 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: gcppg-echo-client
+  name: gcppg-echo-client-async
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
-        app: gcppg-echo-client
+        app: gcppg-echo-client-async
     spec:
       containers:
       - name: echo
-        image: docker.io/carabas/gcppg@sha256:3c0c9570671625d8801ede0299501abeb2b22407378f6acd72995ff0e576dd5a
+        image: docker.io/carabas/gcppg@sha256:16880ecce3956edcb62ed53c7f9e6fbdbe0e7c202cceb267ab4f96c80449268c
         command: ["/opt/gcppg"]
         args: [
-          "echo_client",
-          "--echo_client_server_address=35.195.42.149:80"
+          "echo_client_async",
+          "--echo_client_async_server_address=35.205.122.233:80"
         ]
