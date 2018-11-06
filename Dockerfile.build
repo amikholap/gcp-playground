@@ -11,6 +11,6 @@ RUN cd /tmp/gcppg && \
     cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake .. && \
-    make -j $(($(nproc --all) * 3 / 2))
+    make -j $(($(nproc --all) * 3 / 2)) gcppg
 
 RUN cp /tmp/gcppg/build/src/gcppg /opt/

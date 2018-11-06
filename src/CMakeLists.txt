@@ -21,4 +21,5 @@ add_executable(
         echo_client/client_async.cpp
 )
 target_compile_options(gcppg PRIVATE -Werror)
-target_link_libraries(gcppg grpc++_reflection grpc++ ${PROTOBUF_LIBRARIES} standalone_absl TBB::tbb gflags)
+target_link_libraries(gcppg grpc++_reflection grpc++ ${PROTOBUF_LIBRARIES} standalone_absl ${TBB_LIBRARY} gflags)
+target_include_directories(gcppg PUBLIC ${TBB_INCLUDE_DIR})

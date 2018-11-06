@@ -13,7 +13,7 @@ bake-latest-build:
 	echo "baking workdir: ${TMP_DIR}"
 	docker run --rm -v ${TMP_DIR}:/host ${GCPPG_BUILD_IMAGE} cp /opt/gcppg /host/gcppg
 	cp Dockerfile ${TMP_DIR}
-	cd ${TMP_DIR} && docker build --file=Dockerfile --tag=${GCPPG_IMAGE} .
+	cd ${TMP_DIR} && docker build --no-cache --file=Dockerfile --tag=${GCPPG_IMAGE} .
 	rm -rf ${TMP_DIR}
 
 push-latest:
